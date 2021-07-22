@@ -54,8 +54,12 @@ public class ApiController {
     }
 
     private void print(Map<String, String> headers) {
-        DecodedJWT jwt = JWT.decode(headers.get("authorization").replace("Bearer ", ""));
-        LOGGER.info("{}", jwt.getClaims());
+        try {
+            DecodedJWT jwt = JWT.decode(headers.get("authorization").replace("Bearer ", ""));
+            LOGGER.info("{}", jwt.getClaims());
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(),e);
+        }
     }
     
 }
