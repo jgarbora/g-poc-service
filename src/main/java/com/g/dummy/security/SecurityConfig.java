@@ -35,14 +35,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .mvcMatchers("/actuator/**").permitAll()
                 .mvcMatchers("/api/public").permitAll()
                 .mvcMatchers("/api/private").authenticated()
+
            //    https://community.auth0.com/t/populate-authorities-in-auth0-spring-security-api-from-auth0-assigned-user-permissions/27442/2
            //   permisions are not coming in the scope ... hasAuthority is expecting there ...
           //      .mvcMatchers(HttpMethod.POST,"/api/admin/user").hasAuthority("SCOPE_create:user")
           //      .mvcMatchers(HttpMethod.POST,"/api/user/interrogation").hasAuthority("SCOPE_create:interrogation")
+
                 .and().cors()
                 .and().oauth2ResourceServer().jwt();
 
-
+        // with ROLES :
+        // https://community.auth0.com/t/jwt-with-roles-for-spring-security/6694/6
+        // https://gist.github.com/jimmyjames/e370e0eddb7c8767488a45fd1ba74014
     }
 
     @Bean
