@@ -1,7 +1,8 @@
 package com.g.dummy.service;
 
 
-import com.auth0.jwt.JWT;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
@@ -10,13 +11,10 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.util.UriComponentsBuilder;
 
-import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -24,6 +22,8 @@ import java.util.Map;
 
 @Service
 public class UserService {
+
+    private final static Logger LOGGER = LoggerFactory.getLogger(UserService.class);
 
     @Value("${baseurl:https://jgarbora.eu.auth0.com}")
     private String baseUrl;
@@ -47,6 +47,8 @@ public class UserService {
         body.put("client_secret",clientSecret);
         body.put("audience","https://jgarbora.eu.auth0.com/api/v2/");
         body.put("grant_type","client_credentials");
+
+        LOGGER.info("clientId: {} , clientSecret: {}", clientId, clientSecret);
 
         ResponseEntity<LinkedHashMap> responseEntity = restTemplate.exchange(baseUrl+"/oauth/token", HttpMethod.POST, new HttpEntity<>(body, buildHeaders()), LinkedHashMap.class);
         oauthApiBearerToken = responseEntity.getBody().get("access_token").toString();
