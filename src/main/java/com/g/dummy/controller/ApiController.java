@@ -4,6 +4,7 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.g.dummy.dto.ResponseWrapper;
 import com.g.dummy.service.SecurityService;
+import com.g.dummy.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,9 @@ public class ApiController {
 
     @Autowired
     private SecurityService securityService;
+
+    @Autowired
+    private UserService userService;
 
     @GetMapping(value = "/public")
     public ResponseEntity<?> publicEndpoint(@RequestHeader Map<String, String> headers) {
@@ -55,6 +59,11 @@ public class ApiController {
     @GetMapping(value = "/get-authentication")
     public ResponseEntity getAuthentication() {
         return ResponseEntity.ok(SecurityContextHolder.getContext().getAuthentication());
+    }
+
+    @GetMapping(value = "/find-user")
+    public ResponseEntity metadata() {
+        return ResponseEntity.ok(userService.findUserById());
     }
 
     private void print(Map<String, String> headers) {
