@@ -28,10 +28,10 @@ public class UserService {
     @Value("${baseurl:https://jgarbora.eu.auth0.com}")
     private String baseUrl;
 
-    @Value("{auth0.management.api.clientId}")
+    @Value("${auth0.management.api.clientId}")
     private String clientId;
 
-    @Value("{auth0.management.api.clientSecret}")
+    @Value("${auth0.management.api.clientSecret}")
     private String clientSecret;
 
     private String oauthApiBearerToken;
