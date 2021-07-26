@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
@@ -49,6 +50,11 @@ public class ApiController {
     public ResponseEntity privateUserScoped(@RequestHeader Map<String, String> headers) {
         print(headers);
         return ResponseEntity.ok(new ResponseWrapper("All good. You can see this because you are Authenticated with a Token granted the 'create:interrogation' scope"));
+    }
+
+    @GetMapping(value = "/get-authentication")
+    public ResponseEntity getAuthentication() {
+        return ResponseEntity.ok(SecurityContextHolder.getContext().getAuthentication());
     }
 
     private void print(Map<String, String> headers) {
