@@ -1,6 +1,5 @@
 package com.g.dummy.dto;
 
-import lombok.Builder;
 import lombok.Data;
 
 import java.time.Clock;

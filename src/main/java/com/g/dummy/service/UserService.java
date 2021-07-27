@@ -1,6 +1,8 @@
 package com.g.dummy.service;
 
 
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.interfaces.DecodedJWT;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,9 +11,6 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -60,10 +59,13 @@ public class UserService {
 
 
     public ResponseEntity<LinkedHashMap> findUserById() {
-
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         // example https://jgarbora.eu.auth0.com/api/v2/users/auth0%7C60f879147ddc3f0069ecd7bf
-        return restTemplate.exchange(String.format("%s/api/v2/users/%s",baseUrl,((Jwt) authentication.getCredentials()).getSubject()), HttpMethod.GET, new HttpEntity<>(buildHeadersForAuth0Api()), LinkedHashMap.class);
+        return restTemplate.exchange(String.format("%s/api/v2/users/%s",baseUrl,getSubject()), HttpMethod.GET, new HttpEntity<>(buildHeadersForAuth0Api()), LinkedHashMap.class);
+    }
+
+    private String getSubject() {
+        DecodedJWT jwt = JWT.decode( request.getHeader("authorization").replace("Bearer ", ""));
+        return jwt.getSubject();
     }
 
     private HttpHeaders buildHeaders() {
