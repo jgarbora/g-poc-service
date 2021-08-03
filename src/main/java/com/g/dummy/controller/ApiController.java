@@ -43,11 +43,6 @@ public class ApiController {
         return ResponseEntity.ok(new ResponseWrapper("All good. You can see this because you are Authenticated with a Token granted the 'create:interrogation' scope"));
     }
 
-    @GetMapping(value = "/find-user")
-    public ResponseEntity metadata() {
-        return ResponseEntity.ok(userService.findUserById());
-    }
-
     private void printJwt(Map<String, String> headers) {
         try {
             if (headers.containsKey("authorization")) {
