@@ -3,6 +3,7 @@ package com.g.dummy.service;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,9 +21,8 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 @Service
-public class UserService {
-
-    private final static Logger LOGGER = LoggerFactory.getLogger(UserService.class);
+@Slf4j
+public class Auth0Adapter {
 
     @Value("${baseurl:https://jgarbora.eu.auth0.com}")
     private String baseUrl;
@@ -47,7 +47,7 @@ public class UserService {
         body.put("audience","https://jgarbora.eu.auth0.com/api/v2/");
         body.put("grant_type","client_credentials");
 
-        LOGGER.info("clientId: {} , clientSecret: {}", clientId, clientSecret);
+        log.debug("clientId: {} , clientSecret: {}", clientId, clientSecret);
 
         ResponseEntity<LinkedHashMap> responseEntity = restTemplate.exchange(baseUrl+"/oauth/token", HttpMethod.POST, new HttpEntity<>(body, buildHeaders()), LinkedHashMap.class);
         oauthApiBearerToken = responseEntity.getBody().get("access_token").toString();
