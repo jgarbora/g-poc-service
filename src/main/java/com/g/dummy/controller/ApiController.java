@@ -3,9 +3,7 @@ package com.g.dummy.controller;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.g.dummy.dto.ResponseWrapper;
-import com.g.dummy.service.Auth0Adapter;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,9 +14,6 @@ import java.util.Map;
 @RequestMapping(path = "/api", produces = MediaType.APPLICATION_JSON_VALUE)
 @Slf4j
 public class ApiController {
-
-    @Autowired
-    private Auth0Adapter userService;
 
     @GetMapping(value = "/public")
     public ResponseEntity<?> publicEndpoint(@RequestHeader Map<String, String> headers) {
