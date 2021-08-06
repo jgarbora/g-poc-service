@@ -26,16 +26,10 @@ public class ApiController {
         return ResponseEntity.ok(new ResponseWrapper("All good. You can see this because you are Authenticated."));
     }
 
-    @PostMapping(value = "/admin/endpoint-01")
-    public ResponseEntity privateAdminScoped(@RequestHeader Map<String, String> headers) {
-        printJwt(headers);
-        return ResponseEntity.ok(new ResponseWrapper("All good. You can see this because you are Authenticated with a Token granted the 'create:user' scope"));
-    }
-
     @PostMapping(value = "/interrogation")
-    public ResponseEntity privateUserScoped(@RequestHeader Map<String, String> headers) {
+    public ResponseEntity privateUserScoped(@RequestHeader Map<String, String> headers, @RequestBody(required = false) Map<String, String> requestBody) {
         printJwt(headers);
-        return ResponseEntity.ok(new ResponseWrapper("All good. You can see this because you are Authenticated with a Token granted the 'create:interrogation' scope"));
+        return ResponseEntity.ok(new ResponseWrapper("interrogation created" + requestBody != null ? requestBody.toString() : ""));
     }
 
     private void printJwt(Map<String, String> headers) {
